@@ -88,7 +88,6 @@ def scraper():
                                 # TODO: send email when fb request fails
                                 print("Error:", response.status_code)
                                 print(e)
-                            time.sleep(5)
 
                     else:
                         print("nothing to report")
