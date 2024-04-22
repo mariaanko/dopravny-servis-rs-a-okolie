@@ -49,8 +49,7 @@ def scraper():
                     try:
                         city = alert['city']
                         street = alert['street']
-                        n_thumbs_up = alert['nThumbsUp']
-                        report_millis = alert['comments'][0]['reportMillis']
+                        report_millis = alert['pubMillis']
                         fmt_report_date = datetime.fromtimestamp(report_millis / 1000).strftime("%d-%m-%Y %H:%M:%S")
                         alert_type = str(alert['type'])
                         location_x = str(alert['location']['x'])
@@ -58,11 +57,13 @@ def scraper():
                         time_now_seconds = datetime.now()
                         report_seconds = datetime.fromtimestamp(report_millis / 1000)
                         time_difference = time_now_seconds - report_seconds
-                        if time_difference <= timedelta(minutes=20):
-                            if alert_type == 'POLICE' or alert_type == 'ACCIDENT':
+                        defined_minutes = timedelta(minutes=15)
+                        print("[" + fmt_report_date + "] : " + alert_type + "-> " + street + ", " + city + " \n")
+                        if time_difference <= defined_minutes:
+                            if alert_type == "POLICE" or alert_type == "ACCIDENT":
                                 options = Options()
-                                # options.binary_location = '/usr/bin/google-chrome'
-                                # options.add_argument('--headless=new')
+                                options.binary_location = '/usr/bin/google-chrome'
+                                options.add_argument('--headless=new')
                                 options.add_argument("--start-maximized")
                                 driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()),
                                                               options=options)
@@ -85,16 +86,19 @@ def scraper():
                                     # TODO: send email when fb request fails
                                     print("Error:", response.status_code)
                                     print(e)
+                                time.sleep(1)
+
+                        else:
+                            print("nothing to report")
                     except KeyError:
                         #when something fails
-                        print(alert)
                         continue
         except requests.exceptions.RequestException as e:
             print(e)
 
 if __name__ == '__main__':
     scraper()
-    schedule.every(20).minutes.do(scraper)
+    schedule.every(15).minutes.do(scraper)
     while True:
         schedule.run_pending()
-        time.sleep(10)
+        time.sleep(1)
