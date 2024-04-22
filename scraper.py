@@ -58,7 +58,7 @@ def scraper():
                     time_now_seconds = datetime.now()
                     report_seconds = datetime.fromtimestamp(report_millis / 1000)
                     time_difference = time_now_seconds - report_seconds
-                    defined_minutes = timedelta(minutes=15)
+                    defined_minutes = timedelta(minutes=30)
                     print("[" + fmt_report_date + "] : " + alert_type + "-> " + street + ", " + city + " \n")
                     if time_difference <= defined_minutes:
                         if alert_type == "POLICE" or alert_type == "ACCIDENT":
