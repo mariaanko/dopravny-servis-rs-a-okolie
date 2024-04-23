@@ -2,7 +2,7 @@
 
 echo "starting script"
 
-if [ -f ../fb_token.sh ];
+if [[ -f ../fb_token.sh ]]
 then
   source ../fb_token.sh
   chmod +x scraper.py
