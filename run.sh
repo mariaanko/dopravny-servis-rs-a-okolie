@@ -10,4 +10,4 @@ else
 fi
 
 chmod +x scraper.py
-nohup ./scraper.py >> custom-output.log &
+nohup $HOME/take-tie-srandicky-eeeej/scraper.py > custom-output.log &
