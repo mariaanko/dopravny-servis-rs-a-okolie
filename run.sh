@@ -10,4 +10,4 @@ else
 fi
 
 chmod +x scraper.py
-nohup source ./bin/activate && python3 "$HOME"/take-tie-srandicky-eeeej/scraper.py &
+nohup python3 "$HOME"/take-tie-srandicky-eeeej/scraper.py > custom-log.log &
