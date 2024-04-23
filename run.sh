@@ -2,7 +2,7 @@
 
 echo "starting script"
 
-if [ -f ../fb_token.sh ]
+if [ -f ../fb_token.sh ];
         source ../fb_token.sh
 else
         print "please create a script '../fb_token.sh' and set a FB_TOKEN variable there"
