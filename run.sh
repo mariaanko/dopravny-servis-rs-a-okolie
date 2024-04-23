@@ -8,4 +8,6 @@ then
 else
         print "please create a script '../fb_token.sh' and set a FB_TOKEN variable there"
 fi
-nohup python3 scraper.py > custom-output.log
+
+chmod +x scraper.py
+nohup ./scraper.py > custom-output.log &
