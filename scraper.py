@@ -1,3 +1,4 @@
+
 import json
 import os
 import time
@@ -61,7 +62,7 @@ def scraper():
                     defined_minutes = timedelta(minutes=30)
                     print("[" + fmt_report_date + "] : " + alert_type + "-> " + street + ", " + city + " \n")
                     if time_difference <= defined_minutes:
-                        if alert_type == "POLICE" or alert_type == "ACCIDENT":
+                        if alert_type == 'POLICE' or alert_type == 'ACCIDENT':
                             options = Options()
                             options.binary_location = '/usr/bin/google-chrome'
                             options.add_argument('--headless=new')
@@ -100,6 +101,7 @@ def scraper():
 
 if __name__ == '__main__':
     print("Process started!")
+    scraper()
     schedule.every(30).minutes.do(scraper)
     print("Scheduled!")
     while True:
