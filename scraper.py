@@ -78,7 +78,7 @@ def scraper():
                             message = (
                                         "[" + fmt_report_date + "] : " + alert_type + "-> " + street + ", " + city + " \n")
                             driver.close()
-                            page_id = 122110656932277370
+                            page_id = 298615713332331
                             facebook_access_token = os.environ.get('FB_TOKEN')
                             try:
                                 post_single_photo(page_id, facebook_access_token, message,
