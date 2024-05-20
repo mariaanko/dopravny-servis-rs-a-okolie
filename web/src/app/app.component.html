@@ -4,27 +4,29 @@
 <table class="table table-striped">
 	<thead>
 		<tr>
-			<th scope="col">Datum</th>
+			<th scope="col">Pridané</th>
 			<th scope="col">Typ</th>
 			<th scope="col">Mesto</th>
 			<th scope="col">Mapa</th>
 		</tr>
 	</thead>
 	<tbody>
-<!--		@for (country of countries; track country.name; let i = $index) {-->
+		@for (resp of response; track resp.pubMillis; let i = $index) {
+    @if (resp.type != 'ROAD_CLOSED') {
 			<tr>
-				<th scope="row">
-        CAS A DATUM
-        </th>
+				<td scope="row">
+          {{resp.pubMillis | date:"d-M-yyyy  hh:mm:ss a"}}
+        </td>
 				<td>
-
+          {{resp.type}}
 				</td>
-				<td>TYP</td>
-				<td>MESTO, Adresa</td>
-				<td><a>Mapa...</a></td>
+				<td>{{resp.street}},{{resp.city}}</td>
+				<td><a target="_blank" href="https://maps.google.com/?q={{resp.location.y}},{{resp.location.x}}&z=20">Otvoriť v Google Maps...</a></td>
 			</tr>
-<!--		}-->
+		}
+  }
 	</tbody>
 </table>
-
+  <p><b>Varovanie!: Toto su posledne data z okolia RS ktore su prave nahlasene a zobrazene aj v appke (waze).
+  Vyhodou tohto portalu asi bude, ze pred jazdou si overite kde su prave nahlasene udalosti.</b></p>
 </div>

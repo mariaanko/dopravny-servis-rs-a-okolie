@@ -4,11 +4,12 @@ import { DataService } from './data.service';
 import { Component, OnInit } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, HttpClientModule],
+  imports: [RouterOutlet, HttpClientModule, DatePipe],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
@@ -16,6 +17,7 @@ import { HttpClientModule } from '@angular/common/http';
 export class AppComponent {
   title = 'Dopravny Servis RS a okolie';
   now: string;
+  response: any;
   constructor(ngbConfig: NgbConfig, private dataService: DataService) {
     ngbConfig.animation = false;
     this.now = new Date().toString().split(' ')[4];
@@ -26,7 +28,7 @@ ngOnInit() {
   }
   sendGetRequest() {
     this.dataService.getData().subscribe(response => {
-      console.log('GET response:', response);
+      this.response = response;
     });
   }
 }
