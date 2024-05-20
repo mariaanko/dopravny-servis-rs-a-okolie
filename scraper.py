@@ -1,17 +1,9 @@
 import json
-import os
-import time
 from datetime import datetime, timedelta
 
 import schedule
 
 import requests
-from selenium.webdriver.chrome.options import Options
-from selenium.webdriver.common.by import By
-from selenium import webdriver
-from webdriver_manager.chrome import ChromeDriverManager
-from selenium.webdriver.chrome.service import Service as ChromeService
-from post_photo import post_single_photo
 
 # Define the headers
 headers = {
@@ -65,35 +57,18 @@ def scraper():
                     print("[" + fmt_report_date + "] : " + alert_type + "-> " + street + ", " + city + " \n")
                     if time_difference <= defined_minutes:
                         if alert_type == 'POLICE' or alert_type == 'ACCIDENT':
-                            # options = Options()
-                            # options.binary_location = '/usr/bin/google-chrome'
-                            # options.add_argument('--headless=new')
-                            # options.add_argument("--start-maximized")
-                            # driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()),
-                            #                           options=options)
                             url = "https://maps.google.com/?q=" + location_y + "," + location_x + "&z=20"
-                            # driver.get(url)
-                            # driver.implicitly_wait(3)
-                            # driver.find_element(By.XPATH, "//button/span").click()
-                            # driver.implicitly_wait(3)
-                            # driver.get_screenshot_as_file(fmt_report_date + ".png")
-                            # print("screenshot saved! name: " + fmt_report_date + ".png \n")
-                            # message = (
-                            #             "[" + fmt_report_date + "] : " + alert_type + "-> " + street + ", " + city + " \n")
-                            # driver.close()
-                            # page_id = 298615713332331
-                            # facebook_access_token = os.environ.get('FB_TOKEN')
                             try:
-                                # post_single_photo(page_id, facebook_access_token, message,
-                                #                   photo_url="./" + fmt_report_date + ".png")
                                 print(url)
                             except requests.exceptions.RequestException as e:
                                 # TODO: send email when fb request fails
+                                return None
                                 print("Error:", response.status_code)
                                 print(e)
 
                     else:
                         print('')
+                    return json_data['alerts']
                 except KeyError:
                     # when something fails
                     continue
