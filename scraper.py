@@ -41,9 +41,12 @@ def scraper():
 
         response = requests.get(url, headers=headers)
         if response.status_code == 200:
+            print("---------------------------------------------------------------")
+            print("---------------------------------------------------------------")
             data = response.content.decode()
-            print('got response from source')
-
+            print(datetime.now())
+            print("---------------------------------------------------------------")
+            print("---------------------------------------------------------------")
             json_data = json.loads(data)
 
             for alert in json_data['alerts']:
@@ -62,35 +65,35 @@ def scraper():
                     print("[" + fmt_report_date + "] : " + alert_type + "-> " + street + ", " + city + " \n")
                     if time_difference <= defined_minutes:
                         if alert_type == 'POLICE' or alert_type == 'ACCIDENT':
-                            options = Options()
-                            options.binary_location = '/usr/bin/google-chrome'
-                            options.add_argument('--headless=new')
-                            options.add_argument("--start-maximized")
-                            driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()),
-                                                      options=options)
+                            # options = Options()
+                            # options.binary_location = '/usr/bin/google-chrome'
+                            # options.add_argument('--headless=new')
+                            # options.add_argument("--start-maximized")
+                            # driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()),
+                            #                           options=options)
                             url = "https://maps.google.com/?q=" + location_y + "," + location_x + "&z=20"
-                            driver.get(url)
-                            driver.implicitly_wait(3)
-                            driver.find_element(By.XPATH, "//button/span").click()
-                            driver.implicitly_wait(3)
-                            driver.get_screenshot_as_file(fmt_report_date + ".png")
-                            print("screenshot saved! name: " + fmt_report_date + ".png \n")
-                            message = (
-                                        "[" + fmt_report_date + "] : " + alert_type + "-> " + street + ", " + city + " \n")
-                            driver.close()
-                            page_id = 298615713332331
-                            facebook_access_token = os.environ.get('FB_TOKEN')
+                            # driver.get(url)
+                            # driver.implicitly_wait(3)
+                            # driver.find_element(By.XPATH, "//button/span").click()
+                            # driver.implicitly_wait(3)
+                            # driver.get_screenshot_as_file(fmt_report_date + ".png")
+                            # print("screenshot saved! name: " + fmt_report_date + ".png \n")
+                            # message = (
+                            #             "[" + fmt_report_date + "] : " + alert_type + "-> " + street + ", " + city + " \n")
+                            # driver.close()
+                            # page_id = 298615713332331
+                            # facebook_access_token = os.environ.get('FB_TOKEN')
                             try:
-                                post_single_photo(page_id, facebook_access_token, message,
-                                                  photo_url="./" + fmt_report_date + ".png")
-                                print("posted successfully")
+                                # post_single_photo(page_id, facebook_access_token, message,
+                                #                   photo_url="./" + fmt_report_date + ".png")
+                                print(url)
                             except requests.exceptions.RequestException as e:
                                 # TODO: send email when fb request fails
                                 print("Error:", response.status_code)
                                 print(e)
 
                     else:
-                        print("nothing to report")
+                        print('')
                 except KeyError:
                     # when something fails
                     continue
@@ -101,7 +104,7 @@ def scraper():
 if __name__ == '__main__':
     print("Process started!")
     scraper()
-    schedule.every(15).minutes.do(scraper)
+    schedule.every(2).minutes.do(scraper)
     print("Scheduled!")
     while True:
         schedule.run_pending()
